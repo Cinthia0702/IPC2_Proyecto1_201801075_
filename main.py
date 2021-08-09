@@ -1,4 +1,7 @@
 from xml.dom import minidom
+from lista_simple import*
+
+list_simple=Lista_simple()
 
 def cargar_archivo():
     ruta=str(input('Ingrese ruta sel archivo: '))
@@ -9,9 +12,20 @@ def cargar_archivo():
         # Cuantas matrices tiene
         print('\nCantidad de terrenos: ',terreno.length)
         for hijo in terreno:
-            print('\nNombre del terreno: ', hijo.getAttribute('nombre'))
+            # Nombre de los terrenos
+            name=hijo.getAttribute('nombre')
+            print('\nNombre del terreno: ', name)
+            # Inserta y muestra los nombres de los terrenos 
+            # en una lista simple
+            print('\nLista simple: ')
+            list_simple.insert(name)
+            list_simple.show()
+            print()
+            # Posicion inicial
             posicioninicio=hijo.getElementsByTagName('posicioninicio')
+            # Posicion final
             posicionfin=hijo.getElementsByTagName('posicionfin')
+            # Posicion
             posicion=hijo.getElementsByTagName('posicion')
             for subHijo in posicioninicio:
                 x=subHijo.getElementsByTagName('x')
