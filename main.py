@@ -1,9 +1,7 @@
 from xml.dom import minidom
-from lista_simple import*
-
-list_simple=Lista_simple()
 
 def cargar_archivo():
+    global terreno, name, posicion, position_begin_x, position_begin_y, position_end_x, position_end_y, position_matriz_x, position_matriz_y, number_matriz
     ruta=str(input('Ingrese ruta sel archivo: '))
     try:
         archivo=open(ruta,mode='r')
@@ -15,12 +13,6 @@ def cargar_archivo():
             # Nombre de los terrenos
             name=hijo.getAttribute('nombre')
             print('\nNombre del terreno: ', name)
-            # Inserta y muestra los nombres de los terrenos 
-            # en una lista simple
-            print('\nLista simple: ')
-            list_simple.insert(name)
-            list_simple.show()
-            print()
             # Posicion inicial
             posicioninicio=hijo.getElementsByTagName('posicioninicio')
             # Posicion final
@@ -32,21 +24,46 @@ def cargar_archivo():
                 y=subHijo.getElementsByTagName('y')
                 print('Posicion inicial: ')
                 for subSubHijo in x:
+                    position_begin_x=subSubHijo.firstChild.data
                     print('x: ',subSubHijo.firstChild.data, end=', ')
                 for subSubHijo in y:
+                    position_begin_y=subSubHijo.firstChild.data
                     print('y: ',subSubHijo.firstChild.data)
             for subHijo in posicionfin:
                 x=subHijo.getElementsByTagName('x')
                 y=subHijo.getElementsByTagName('y')
                 print('Posicion final: ')
                 for subSubHijo in x:
+                    position_end_x=subSubHijo.firstChild.data
                     print('x: ',subSubHijo.firstChild.data, end=', ')
                 for subSubHijo in y:
+                    position_end_y=subSubHijo.firstChild.data
                     print('y: ',subSubHijo.firstChild.data)
                 print()
+            # Se encuentra el valor maximo del eje x y del eje y
             for subHijo in posicion:
+                position_x=int(subHijo.getAttribute('x'))
+                position_y=int(subHijo.getAttribute('y'))
+            x=position_x
+            print('Cantidad de columnas: ',x,end=' ')
+            y=position_y
+            print('Cantidad de filas: ',y)
+            #list_simple=Lista_simple(name_matriz=name,size_x=x,size_y=y)
+            #matriz_ortogonal=Lista_ortogonal(name,x,y)
+            # Se encuentran las posiciones de x, y y el valor que almacena
+            for subHijo in posicion:
+                position_matriz_x=int(subHijo.getAttribute('x'))
+                position_matriz_y=int(subHijo.getAttribute('y'))
+                number_matriz=int(subHijo.firstChild.data)
                 print('x: ',subHijo.getAttribute('x'),', y: ',subHijo.getAttribute('y'),end=' = ')
                 print(subHijo.firstChild.data)
+                #list_simple.insert(name,position_begin_x,position_begin_y,position_end_x,position_end_y,position_matriz_x,position_matriz_y,number_matriz)
+                #matriz_ortogonal.insert_ortogonal(number_matriz,position_matriz_x,position_matriz_y)
+            #print()
+            #list_simple.show(position_matriz_x,position_matriz_y)
+            #matriz_ortogonal.show_ortogonal(position_matriz_x,position_matriz_y)
+            #number_position=len(posicion)
+            #print(number_position)
     except:
         print('No se puede abrir el archivo')
 
