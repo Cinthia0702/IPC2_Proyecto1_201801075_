@@ -1,4 +1,6 @@
 from xml.dom import minidom
+from lista_simple import*
+from matriz_ortogonal import*
 
 def cargar_archivo():
     global terreno, name, posicion, position_begin_x, position_begin_y, position_end_x, position_end_y, position_matriz_x, position_matriz_y, number_matriz
@@ -48,8 +50,8 @@ def cargar_archivo():
             print('Cantidad de columnas: ',x,end=' ')
             y=position_y
             print('Cantidad de filas: ',y)
-            #list_simple=Lista_simple(name_matriz=name,size_x=x,size_y=y)
-            #matriz_ortogonal=Lista_ortogonal(name,x,y)
+            list_simple=Lista_simple(name_matriz=name,size_x=x,size_y=y)
+            matriz_ortogonal=Lista_ortogonal(name,x,y)
             # Se encuentran las posiciones de x, y y el valor que almacena
             for subHijo in posicion:
                 position_matriz_x=int(subHijo.getAttribute('x'))
@@ -57,10 +59,10 @@ def cargar_archivo():
                 number_matriz=int(subHijo.firstChild.data)
                 print('x: ',subHijo.getAttribute('x'),', y: ',subHijo.getAttribute('y'),end=' = ')
                 print(subHijo.firstChild.data)
-                #list_simple.insert(name,position_begin_x,position_begin_y,position_end_x,position_end_y,position_matriz_x,position_matriz_y,number_matriz)
+                list_simple.insert(name,position_begin_x,position_begin_y,position_end_x,position_end_y,position_matriz_x,position_matriz_y,number_matriz)
                 #matriz_ortogonal.insert_ortogonal(number_matriz,position_matriz_x,position_matriz_y)
-            #print()
-            #list_simple.show(position_matriz_x,position_matriz_y)
+            print()
+            list_simple.show(position_matriz_x,position_matriz_y)
             #matriz_ortogonal.show_ortogonal(position_matriz_x,position_matriz_y)
             #number_position=len(posicion)
             #print(number_position)
