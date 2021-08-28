@@ -1,10 +1,14 @@
+from os import startfile, system, write
 from xml.dom import minidom
 from lista_simple import*
 from matriz_ortogonal import*
 
+list_simple=Lista_simple()
+
 def cargar_archivo():
     global terreno, name, posicion, position_begin_x, position_begin_y, position_end_x, position_end_y, position_matriz_x, position_matriz_y, number_matriz
-    ruta=str(input('Ingrese ruta sel archivo: '))
+    global dimension_x, dimension_y
+    ruta=str(input('Ingrese ruta del archivo: '))
     try:
         archivo=open(ruta,mode='r')
         archivo_cargado=minidom.parse(archivo)
@@ -14,69 +18,82 @@ def cargar_archivo():
         for hijo in terreno:
             # Nombre de los terrenos
             name=hijo.getAttribute('nombre')
-            print('\nNombre del terreno: ', name)
+            print('\nNombre del terreno: ', name) 
+            # Dimension de la matriz
+            for subHijo in hijo.getElementsByTagName('dimension'):
+                print('Dimesion: ')
+                # x
+                for subSubHijo in subHijo.getElementsByTagName('m'):
+                    dimension_x=int(subSubHijo.firstChild.data)
+                    print('x: ',dimension_x, end=', ')
+                # y
+                for subSubHijo in subHijo.getElementsByTagName('n'):
+                    dimension_y=int(subSubHijo.firstChild.data)
+                    print('y: ',dimension_y)
             # Posicion inicial
-            posicioninicio=hijo.getElementsByTagName('posicioninicio')
-            # Posicion final
-            posicionfin=hijo.getElementsByTagName('posicionfin')
-            # Posicion
-            posicion=hijo.getElementsByTagName('posicion')
-            for subHijo in posicioninicio:
-                x=subHijo.getElementsByTagName('x')
-                y=subHijo.getElementsByTagName('y')
+            for subHijo in hijo.getElementsByTagName('posicioninicio'):
                 print('Posicion inicial: ')
-                for subSubHijo in x:
+                for subSubHijo in subHijo.getElementsByTagName('x'):
                     position_begin_x=subSubHijo.firstChild.data
                     print('x: ',subSubHijo.firstChild.data, end=', ')
-                for subSubHijo in y:
+                for subSubHijo in subHijo.getElementsByTagName('y'):
                     position_begin_y=subSubHijo.firstChild.data
                     print('y: ',subSubHijo.firstChild.data)
-            for subHijo in posicionfin:
-                x=subHijo.getElementsByTagName('x')
-                y=subHijo.getElementsByTagName('y')
+            # Posicion final
+            for subHijo in hijo.getElementsByTagName('posicionfin'):
                 print('Posicion final: ')
-                for subSubHijo in x:
+                for subSubHijo in subHijo.getElementsByTagName('x'):
                     position_end_x=subSubHijo.firstChild.data
                     print('x: ',subSubHijo.firstChild.data, end=', ')
-                for subSubHijo in y:
+                for subSubHijo in subHijo.getElementsByTagName('y'):
                     position_end_y=subSubHijo.firstChild.data
                     print('y: ',subSubHijo.firstChild.data)
                 print()
-            # Se encuentra el valor maximo del eje x y del eje y
-            for subHijo in posicion:
-                position_x=int(subHijo.getAttribute('x'))
-                position_y=int(subHijo.getAttribute('y'))
-            x=position_x
-            print('Cantidad de columnas: ',x,end=' ')
-            y=position_y
-            print('Cantidad de filas: ',y)
-            list_simple=Lista_simple(name_matriz=name,size_x=x,size_y=y)
-            matriz_ortogonal=Lista_ortogonal(name,x,y)
+            matriz_ortogonal=Lista_ortogonal(name_T=name,size_x=dimension_x,size_y=dimension_y,position_begin_x=position_begin_x,
+            position_begin_y=position_begin_y,position_end_x=position_end_x,position_end_y=position_end_y)
+            list_simple.insert(matriz_ortogonal)
+            # Posicion
             # Se encuentran las posiciones de x, y y el valor que almacena
-            for subHijo in posicion:
+            for subHijo in hijo.getElementsByTagName('posicion'):
                 position_matriz_x=int(subHijo.getAttribute('x'))
                 position_matriz_y=int(subHijo.getAttribute('y'))
                 number_matriz=int(subHijo.firstChild.data)
-                print('x: ',subHijo.getAttribute('x'),', y: ',subHijo.getAttribute('y'),end=' = ')
-                print(subHijo.firstChild.data)
-                list_simple.insert(name,position_begin_x,position_begin_y,position_end_x,position_end_y,position_matriz_x,position_matriz_y,number_matriz)
-                #matriz_ortogonal.insert_ortogonal(number_matriz,position_matriz_x,position_matriz_y)
+                print('x: ',position_matriz_x,', y: ',position_matriz_y,'=',number_matriz)
+                matriz_ortogonal.insert_ortogonal(number_matriz,position_matriz_x,position_matriz_y,dimension_x,dimension_y)
+                matriz_ortogonal.show_ortogonal(position_matriz_x,position_matriz_y)
             print()
-            list_simple.show(position_matriz_x,position_matriz_y)
-            #matriz_ortogonal.show_ortogonal(position_matriz_x,position_matriz_y)
-            #number_position=len(posicion)
-            #print(number_position)
+            list_simple.show()
     except:
         print('No se puede abrir el archivo')
 
 def procesar_archivo():
-    pass
+    nombre_terreno=input('Ingrese nombre de terreno que desee: ')
+    list_simple.search(nombre_terreno)
 
 def escribir_archivo_salida():
     pass
 
 def generar_grafica():
-    pass
+    nombre_terreno=input('Ingrese nombre de terreno que desee: ')
+    if list_simple.search(nombre_terreno):
+        grafica='''
+        digraph L{
+        node[shape=box fillcolor="#FFEDBB" style=filled]
+        subgraph cluster_p{'''
+        grafica+='label= %s '% nombre_terreno
+        grafica+='bgcolor = "#900C3F"'
+        grafica+='raiz[label = "0,0"]'
+        grafica+='}'
+        grafica+='}'
+        archivo=open('grafica.dot','w')
+        archivo.write(grafica)
+        archivo.close()
+
+        system('dot -Tpng grafica.dot -o grafica.png')
+        system('cd ./grafica.png')
+        startfile('grafica.png')
+    else:
+        print('No se encontro')
 
 while True:
     print('<-------------------------------------------------->')

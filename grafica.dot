@@ -1,0 +1,4 @@
+
+        digraph L{
+        node[shape=box fillcolor="#FFEDBB" style=filled]
+        subgraph cluster_p{label= terreno1 bgcolor = "#900C3F"raiz[label = "0,0"]}}

@@ -21,7 +21,7 @@ class Lista_Doble_Encabezado:
         else:
             new_node = self.headE
             while(new_node != None):
-                print(new_node.informationE,end='->')
+                print(new_node.ejeE,end='->')
                 new_node = new_node.nextE
             print('None')
     # Metodo validar si existe nodo en la lista 
@@ -32,7 +32,7 @@ class Lista_Doble_Encabezado:
             return False
         else:  
             while new_node != None:
-                if coordenate == new_node.informationE:
+                if coordenate == new_node.ejeE:
                     return True
                 new_node = new_node.nextE
             return False
@@ -44,6 +44,6 @@ class Lista_Doble_Encabezado:
             print('Esta vacia')
         else:
             while new_node != None:
-                if (coordenate) == (new_node.informationE):
+                if (coordenate) == (new_node.ejeE):
                     return new_node
                 new_node = new_node.nextE

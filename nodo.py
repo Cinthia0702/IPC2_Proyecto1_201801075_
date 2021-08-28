@@ -1,9 +1,6 @@
 class Nodo_lista:
-    def __init__(self, node_name=None, node_position_begin=None, node_position_end=None, node_matriz=None, next=None):
-        self.node_name=node_name
-        self.node_position_begin=node_position_begin
-        self.node_position_end=node_position_end
-        self.node_matriz=node_matriz
+    def __init__(self, information=None, next=None):
+        self.information=information
         self.next=next
 
 class Info_position:
@@ -11,26 +8,31 @@ class Info_position:
         self.node_position_x=node_position_x
         self.node_position_y=node_position_y
 
-class Nodo():    
-    def __init__(self, name_T=None, coordenate_x=None, coordenate_y=None, size_matriz_x=None, size_matriz_y=None):
-        self.name_T = name_T
+class Nodo:    
+    def __init__(self, name_T=None, coordenate_x=None, coordenate_y=None, node_position_begin_x=None, node_position_begin_y=None, node_position_end_x=None, node_position_end_y=None, size_x=None, size_y=None):
+        self.name_T=name_T
         self.coordenate_x = coordenate_x
         self.coordenate_y = coordenate_y
-        self.size_matriz_x = size_matriz_x
-        self.size_matriz_y = size_matriz_y
+        self.node_position_begin_x=node_position_begin_x
+        self.node_position_begin_y=node_position_begin_y
+        self.node_position_end_x=node_position_end_x
+        self.node_position_end_y=node_position_end_y
+        self.size_x=size_x
+        self.size_y=size_y
 
-class NodoEncabezado():
-    def __init__(self,informationE=None, nextE=None, beforeE=None, node=None):
-        self.informationE = informationE
+class NodoEncabezado:
+    def __init__(self, ejeE=None, nextE=None, beforeE=None, next_node_matriz=None):
+        self.ejeE = ejeE
         self.nextE = nextE
         self.beforeE = beforeE
-        self.node = node
+        # Es el que apunta del nodo encabezado al nodo de la matriz
+        self.next_node_matriz = next_node_matriz
 
-class NodoMatriz():
-    def __init__(self, number=None, columnM=None, rowM=None, nextM=None, beforeM=None, upM=None, downM=None):
+class NodoMatriz:
+    def __init__(self, number=None, rowM=None, columnM=None, nextM=None, beforeM=None, upM=None, downM=None):
         self.number = number
-        self.columnM = columnM
         self.rowM = rowM
+        self.columnM = columnM
         self.nextM = nextM
         self.beforeM = beforeM
         self.upM = upM
