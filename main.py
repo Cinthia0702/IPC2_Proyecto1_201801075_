@@ -140,25 +140,25 @@ def generar_grafica():
                 current_node_column=current_node_column.downM
             current_node_row=current_node_row.nextM
 
-        #auxnode_x=search_name.list_encabezado_x.headE
-        #currentnode_row=auxnode_x.nextE
-        #grafica+='Fila1->'
-        #while currentnode_row:
-        #    grafica+='Fila%s'% currentnode_row.ejeE+'->'
-        #    currentnode_row=currentnode_row.nextE            
+        auxnode_x=search_name.list_encabezado_x.headE
+        currentnode_row=auxnode_x.nextE
+        grafica+='Fila1->nodoFila1nodoColumna1 '
+        grafica+='{rank=same;Fila1;nodoFila1nodoColumna1 '           
 
-        aux_x_node_x=search_name.list_encabezado_x.headE 
-        current_x_node_row=aux_x_node_x.next_node_matriz
-        while current_x_node_row != None:
-            aux_y_node_y=search_name.list_encabezado_y.headE 
-            current_y_node_column=aux_y_node_y.next_node_matriz
-            current_y_node_column=current_x_node_row
-            while current_y_node_column != None:
-                grafica+='nodoFila%s'% current_y_node_column.rowM+'nodoColumna%s '% current_y_node_column.columnM+'->'
-                current_y_node_column=current_y_node_column.downM
-            current_x_node_row=current_x_node_row.nextM
+        aux_y_node_y=search_name.list_encabezado_y.headE 
+        current_y_node_column=aux_y_node_y.next_node_matriz
+        while current_y_node_column and currentnode_row:
+            #grafica+='Fila%s'% currentnode_row.ejeE+'->'
+            aux_x_node_x=search_name.list_encabezado_x.headE 
+            current_x_node_row=aux_x_node_x.next_node_matriz
+            current_x_node_row=current_y_node_column
+            while current_x_node_row:
+                grafica+='nodoFila%s'% current_x_node_row.rowM+'nodoColumna%s '% current_x_node_row.columnM+'->'
+                current_x_node_row=current_x_node_row.nextM
+            #currentnode_row=currentnode_row.nextE 
+            current_y_node_column=current_y_node_column.downM
         grafica+='None_x_m[label=""];\n'
-
+        grafica+='}'
         grafica+='}'
         grafica+='}'
         archivo=open('grafica.dot','w')
