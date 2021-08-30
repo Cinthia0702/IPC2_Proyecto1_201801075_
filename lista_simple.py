@@ -1,5 +1,4 @@
 from nodo import*
-from lista_simple import*
 
 class Lista_simple:
     # Constructor
@@ -53,9 +52,4 @@ class Lista_simple:
             while new_node != None:
                 if new_node.information.get_name() == name:
                     return new_node.information
-                #else:
-                #    if new_node==self.tail: 
-                #        print('No existe el terreno')
-                #        return
-                #    else:
                 new_node=new_node.next
